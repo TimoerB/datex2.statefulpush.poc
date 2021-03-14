@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapbind="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ex="http://datex2.eu/schema/3/exchangeInformation" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://datex2.eu/wsdl/statefulPush/2020" xmlns:con="http://datex2.eu/schema/3/messageContainer" xmlns:com="http://datex2.eu/schema/3/common" targetNamespace="http://datex2.eu/wsdl/statefulPush/2020" name="statefulPush">
+    <documentation>
+        Exchange 2020 Version ( DATEX II 3.x related )
+        This document describes the Exchange 2020 (supporting DATEX II) Stateful Push service interface
+        This wsdl document is the reference with which each DATEX II Web Service has to be built
+        Refer http://datex2.eu
+    </documentation>
+
+    <types>
+        <xs:schema targetNamespace="http://datex2.eu/wsdl/statefulPush/2020">
+            <xs:import namespace="http://datex2.eu/schema/3/messageContainer" schemaLocation="../xsd/DATEXII_3_MessageContainer.xsd"/>
+            <xs:import namespace="http://datex2.eu/schema/3/exchangeInformation" schemaLocation="../xsd/DATEXII_3_ExchangeInformation.xsd"/>
+            <!-- Here, the "namespace" MUST be the same as the used DATEXII schema targetNamespace -->
+            <!-- Here, the "schemaLocation" depends on each implementation and MUST be filled  by each developer, for instance  "file:///C:/DATEXII/MessageContainer.xsd"-->
+
+            <xs:element name="putDataInput" type="con:MessageContainer" />
+            <xs:element name="putDataOutput" type="ex:ExchangeInformation" />
+
+            <xs:element name="putSnapshotDataInput" type="con:MessageContainer" />
+            <xs:element name="putSnapshotDataOutput" type="ex:ExchangeInformation" />
+
+            <xs:element name="openSessionInput" type="ex:ExchangeInformation" />
+            <xs:element name="openSessionOutput" type="ex:ExchangeInformation" />
+
+            <xs:element name="closeSessionInput" type="ex:ExchangeInformation" />
+            <xs:element name="closeSessionOutput" type="ex:ExchangeInformation" />
+
+            <xs:element name="keepAliveInput" type="ex:ExchangeInformation" />
+            <xs:element name="keepAliveOutput" type="ex:ExchangeInformation" />
+        </xs:schema>
+    </types>
+
+    <message name="putDataInputMessage">
+        <part name="body" element="tns:putDataInput"/>
+    </message>
+    <message name="putDataOutputMessage">
+        <part name="return" element="tns:putDataOutput"/>
+    </message>
+
+    <message name="putSnapshotDataInputMessage">
+        <part name="body" element="tns:putSnapshotDataInput"/>
+    </message>
+    <message name="putSnapshotDataOutputMessage">
+        <part name="return" element="tns:putSnapshotDataOutput"/>
+    </message>
+
+    <message name="openSessionInputMessage">
+        <part name="body" element="tns:openSessionInput"/>
+    </message>
+    <message name="openSessionOutputMessage">
+        <part name="return" element="tns:openSessionOutput"/>
+    </message>
+
+    <message name="closeSessionInputMessage">
+        <part name="body" element="tns:closeSessionInput"/>
+    </message>
+    <message name="closeSessionOutputMessage">
+        <part name="return" element="tns:closeSessionOutput"/>
+    </message>
+
+    <message name="keepAliveInputMessage">
+        <part name="body" element="tns:keepAliveInput"/>
+    </message>
+    <message name="keepAliveOutputMessage">
+        <part name="return" element="tns:keepAliveOutput"/>
+    </message>
+
+    <portType name="stateFulPushInterface">
+        <operation name="putData">
+            <input message="tns:putDataInputMessage"/>
+            <output message="tns:putDataOutputMessage"/>
+        </operation>
+        <operation name="openSession">
+            <input message="tns:openSessionInputMessage"/>
+            <output message="tns:openSessionOutputMessage"/>
+        </operation>
+        <operation name="closeSession">
+            <input message="tns:closeSessionInputMessage"/>
+            <output message="tns:closeSessionOutputMessage"/>
+        </operation>
+        <operation name="keepAlive">
+            <input message="tns:keepAliveInputMessage"/>
+            <output message="tns:keepAliveOutputMessage"/>
+        </operation>
+        <operation name="putSnapshotData">
+            <input message="tns:putSnapshotDataInputMessage"/>
+            <output message="tns:putSnapshotDataOutputMessage"/>
+        </operation>
+    </portType>
+
+    <binding name="statefulPushSoapBinding" type="tns:stateFulPushInterface">
+        <soapbind:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="putData">
+            <soapbind:operation soapAction="http://datex2.eu/wsdl/statefulPush/2020/putData" style="document"/>
+            <input>
+                <soapbind:body parts="body" use="literal"/>
+            </input>
+            <output>
+                <soapbind:body parts="return" use="literal"/>
+            </output>
+        </operation>
+        <operation name="putSnapshotData">
+            <soapbind:operation soapAction="http://datex2.eu/wsdl/statefulPush/2020/putSnapshotData" style="document"/>
+            <input>
+                <soapbind:body parts="body" use="literal"/>
+            </input>
+            <output>
+                <soapbind:body parts="return" use="literal"/>
+            </output>
+        </operation>
+        <operation name="openSession">
+            <soapbind:operation soapAction="http://datex2.eu/wsdl/statefulPush/2020/openSession" style="document"/>
+            <input>
+                <soapbind:body parts="body" use="literal"/>
+            </input>
+            <output>
+                <soapbind:body parts="return" use="literal"/>
+            </output>
+        </operation>
+        <operation name="closeSession">
+            <soapbind:operation soapAction="http://datex2.eu/wsdl/statefulPush/2020/closeSession" style="document"/>
+            <input>
+                <soapbind:body parts="body" use="literal"/>
+            </input>
+            <output>
+                <soapbind:body parts="return" use="literal"/>
+            </output>
+        </operation>
+        <operation name="keepAlive">
+            <soapbind:operation soapAction="http://datex2.eu/wsdl/statefulPush/2020/keepAlive" style="document"/>
+            <input>
+                <soapbind:body parts="body" use="literal"/>
+            </input>
+            <output>
+                <soapbind:body parts="return" use="literal"/>
+            </output>
+        </operation>
+    </binding>
+
+    <service name="statefulPushService">
+        <port name="statefulPushSoapEndPoint" binding="tns:statefulPushSoapBinding">
+            <soapbind:address location="http://localhost:8888/ws/statefulPush"/>
+            <!-- Here, the "location" depends on each implementation and MUST be filled  by each developer, for instance "http://localhost:8080/statefulPushService/2020"-->
+        </port>
+    </service>
+</definitions>
+

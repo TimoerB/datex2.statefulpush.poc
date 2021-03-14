@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns="http://datex2.eu/schema/3/d2Payload" version="3.0" targetNamespace="http://datex2.eu/schema/3/d2Payload" xmlns:com="http://datex2.eu/schema/3/common" xmlns:loc="http://datex2.eu/schema/3/locationReferencing" xmlns:sit="http://datex2.eu/schema/3/situation" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://datex2.eu/schema/3/situation" schemaLocation="Situation.xsd" />
+  <xs:import namespace="http://datex2.eu/schema/3/locationReferencing" schemaLocation="LocationReferencing.xsd" />
+  <xs:import namespace="http://datex2.eu/schema/3/common" schemaLocation="Common.xsd" />
+    <xs:element name="payload" type="Payload">
+    <xs:unique name="_payloadSituationRecordConstraint">
+      <xs:selector xpath=".//sit:situationRecord" />
+      <xs:field xpath="@id" />
+      <xs:field xpath="@version" />
+    </xs:unique>
+    <xs:unique name="_payloadSituationConstraint">
+      <xs:selector xpath=".//sit:situation" />
+      <xs:field xpath="@id" />
+    </xs:unique>
+    <xs:unique name="_payloadPredefinedLocationGroupConstraint">
+      <xs:selector xpath=".//loc:predefinedLocationGroup" />
+      <xs:field xpath="@id" />
+      <xs:field xpath="@version" />
+    </xs:unique>
+    <xs:unique name="_payloadPredefinedLocationConstraint">
+      <xs:selector xpath=".//loc:predefinedLocation" />
+      <xs:field xpath="@id" />
+      <xs:field xpath="@version" />
+    </xs:unique>
+    <xs:unique name="_payloadPredefinedItineraryConstraint">
+      <xs:selector xpath=".//loc:predefinedItinerary" />
+      <xs:field xpath="@id" />
+      <xs:field xpath="@version" />
+    </xs:unique>
+  </xs:element>
+  <xs:complexType name="Payload">
+    <xs:complexContent>
+      <xs:extension base="com:PayloadPublication">
+        <xs:sequence>
+          <xs:element name="situation" type="sit:Situation" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="_situationPublicationExtension" type="com:_ExtensionType" minOccurs="0" />
+          <xs:element name="predefinedLocationsPublication" type="loc:PredefinedLocationsPublication" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>
