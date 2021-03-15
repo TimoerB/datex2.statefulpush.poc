@@ -17,6 +17,8 @@ import java.util.List;
 @Endpoint
 public class StatefulPushWSDL implements StatefulPushWSDLInterface {
 
+    private static final String NAMESPACE_URI = "http://datex2.eu/wsdl/statefulPush/2020";
+
     private static final Logger log = LoggerFactory.getLogger(StatefulPushWSDL.class);
 
     private Subscription subscription = new Subscription();
@@ -24,7 +26,7 @@ public class StatefulPushWSDL implements StatefulPushWSDLInterface {
     private List<Payload> datex2Publication = new ArrayList<>();
 
     @Override
-    @PayloadRoot(namespace = "http://datex2.eu/wsdl/statefulPush/2020", localPart = "putDataInput")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "putDataInput")
     public @ResponsePayload JAXBElement<ExchangeInformation> putData(@RequestPayload JAXBElement<MessageContainer> body) {
         log.info("Received putData from supplier");
 
@@ -40,7 +42,7 @@ public class StatefulPushWSDL implements StatefulPushWSDLInterface {
     }
 
     @Override
-    @PayloadRoot(namespace = "http://datex2.eu/wsdl/statefulPush/2020", localPart = "putSnapshotDataInput")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "putSnapshotDataInput")
     public @ResponsePayload JAXBElement<ExchangeInformation> putSnapshotData(@RequestPayload JAXBElement<MessageContainer> body) {
         log.info("Received putSnapshotData from supplier");
 
@@ -56,7 +58,7 @@ public class StatefulPushWSDL implements StatefulPushWSDLInterface {
     }
 
     @Override
-    @PayloadRoot(namespace = "http://datex2.eu/wsdl/statefulPush/2020", localPart = "openSessionInput")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "openSessionInput")
     public @ResponsePayload JAXBElement<ExchangeInformation> openSession(@RequestPayload JAXBElement<ExchangeInformation> body) {
         log.info("Opening session!");
 
@@ -68,14 +70,14 @@ public class StatefulPushWSDL implements StatefulPushWSDLInterface {
     }
 
     @Override
-    @PayloadRoot(namespace = "http://datex2.eu/wsdl/statefulPush/2020", localPart = "closeSessionInput")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "closeSessionInput")
     public @ResponsePayload JAXBElement<ExchangeInformation> closeSession(@RequestPayload JAXBElement<ExchangeInformation> body) {
         //TODO: this is a mock implementation, change this to an actual one
         return null;
     }
 
     @Override
-    @PayloadRoot(namespace = "http://datex2.eu/wsdl/statefulPush/2020", localPart = "keepAliveInput")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "keepAliveInput")
     public @ResponsePayload JAXBElement<ExchangeInformation> keepAlive(@RequestPayload JAXBElement<ExchangeInformation> body) {
         log.info("Keeping session alive, echoing back");
 
