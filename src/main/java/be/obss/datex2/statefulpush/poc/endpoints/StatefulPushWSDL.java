@@ -1,18 +1,16 @@
 package be.obss.datex2.statefulpush.poc.endpoints;
 
-import eu.datex2.schema._3.d2payload.Payload;
+import be.obss.datex2.statefulpush.poc.util.DataHolder;
 import eu.datex2.schema._3.exchangeinformation.ExchangeContext;
 import eu.datex2.schema._3.exchangeinformation.ExchangeInformation;
-import eu.datex2.schema._3.exchangeinformation.Subscription;
 import eu.datex2.schema._3.messagecontainer.MessageContainer;
 import eu.datex2.wsdl.statefulpush._2020.ObjectFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.*;
 
 import javax.xml.bind.JAXBElement;
-import java.util.ArrayList;
-import java.util.List;
 
 @Endpoint
 public class StatefulPushWSDL implements StatefulPushWSDLInterface {
@@ -21,9 +19,12 @@ public class StatefulPushWSDL implements StatefulPushWSDLInterface {
 
     private static final Logger log = LoggerFactory.getLogger(StatefulPushWSDL.class);
 
-    private Subscription subscription = new Subscription();
+    private final DataHolder dataHolder;
 
-    private List<Payload> datex2Publication = new ArrayList<>();
+    @Autowired
+    public StatefulPushWSDL(DataHolder dataHolder) {
+        this.dataHolder = dataHolder;
+    }
 
     @Override
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "putDataInput")
@@ -32,11 +33,11 @@ public class StatefulPushWSDL implements StatefulPushWSDLInterface {
 
         //TODO: this is a mock implementation, change this to an actual one
 
-        datex2Publication.addAll(body.getValue().getPayloads());
+        dataHolder.getDatex2Publication().addAll(body.getValue().getPayloads());
 
         ExchangeInformation exchangeInformation = new ExchangeInformation();
         ExchangeContext exchangeContext = new ExchangeContext();
-        exchangeContext.setSubscription(subscription);
+        exchangeContext.setSubscription(dataHolder.getSubscription());
         exchangeInformation.setExchangeContext(exchangeContext);
         return new ObjectFactory().createPutDataOutput(exchangeInformation);
     }
@@ -48,11 +49,11 @@ public class StatefulPushWSDL implements StatefulPushWSDLInterface {
 
         //TODO: this is a mock implementation, change this to an actual one
 
-        datex2Publication = body.getValue().getPayloads();
+        dataHolder.setDatex2Publication(body.getValue().getPayloads());
 
         ExchangeInformation exchangeInformation = new ExchangeInformation();
         ExchangeContext exchangeContext = new ExchangeContext();
-        exchangeContext.setSubscription(subscription);
+        exchangeContext.setSubscription(dataHolder.getSubscription());
         exchangeInformation.setExchangeContext(exchangeContext);
         return new ObjectFactory().createPutSnapshotDataOutput(exchangeInformation);
     }
@@ -65,7 +66,7 @@ public class StatefulPushWSDL implements StatefulPushWSDLInterface {
         //TODO: this is a mock implementation, change this to an actual one
 
         //echo the response back and keep the subscription object
-        subscription = body.getValue().getExchangeContext().getSubscription();
+        dataHolder.setSubscription(body.getValue().getExchangeContext().getSubscription());
         return new ObjectFactory().createOpenSessionOutput(body.getValue());
     }
 
